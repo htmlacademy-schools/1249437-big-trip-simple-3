@@ -2,8 +2,7 @@ const pointTypes = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in
 
 
 const descriptionPhrases = [
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'Cras aliquet varius magna, non porta ligula ' +
-  'feugiat eget.',
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'Cras aliquet varius magna, non porta ligula feugiat eget.',
   'Fusce tristique felis at fermentum pharetra.', 'Aliquam id orci ut lectus varius viverra.',
   'Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.',
   'Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.',
@@ -226,4 +225,20 @@ const getOffersByType = (type) => {
 };
 
 
-export { pointTypes, descriptionPhrases, namesOfPlaces, fromToDates, getOffersByType, offersByType};
+const FilterType = {
+  EVERYTHING: 'everything',
+  FUTURE: 'future'
+};
+
+
+const SortType = {
+  DAY: 'day',
+  EVENT: 'event',
+  TIME: 'time',
+  PRICE: 'price',
+  OFFERS: 'offers'
+};
+
+
+export { fromToDates, getOffersByType, offersByType, FilterType, pointTypes, descriptionPhrases, namesOfPlaces,
+  SortType};
