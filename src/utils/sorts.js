@@ -1,4 +1,4 @@
-import { SortType } from './const';
+import { SortType } from '../mock/const';
 
 
 const sorts = {

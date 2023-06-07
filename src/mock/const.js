@@ -2,13 +2,14 @@ const pointTypes = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in
 
 
 const descriptionPhrases = [
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'Cras aliquet varius magna, non porta ligula feugiat eget.',
-  'Fusce tristique felis at fermentum pharetra.', 'Aliquam id orci ut lectus varius viverra.',
-  'Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.',
-  'Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.',
-  'Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.',
-  'Sed sed nisi sed augue convallis suscipit in sed felis.', 'Aliquam erat volutpat.',
-  'Nunc fermentum tortor ac porta dapibus.', 'In rutrum ac purus sit amet tempus.'
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 'Cras aliquet varius magna, non porta ligula feugiat' +
+  ' eget.',
+  'Fusce tristique felis at fermentum pharetra.', 'Aliquam id orci ut lectus varius viverra.', 'Nullam nunc ex,' +
+  ' convallis sed finibus eget, sollicitudin eget ante.',
+  'Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.', 'Sed blandit, eros vel aliquam' +
+  ' faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.',
+  'Sed sed nisi sed augue convallis suscipit in sed felis.', 'Aliquam erat volutpat.', 'Nunc fermentum tortor ac' +
+  ' porta dapibus.', 'In rutrum ac purus sit amet tempus.'
 ];
 
 
@@ -201,30 +202,6 @@ const offersByType = [
 ];
 
 
-const getOffersByType = (type) => {
-  switch (type) {
-    case 'taxi':
-      return taxiOffers;
-    case 'bus':
-      return busOffers;
-    case 'train':
-      return trainOffers;
-    case 'ship':
-      return shipOffers;
-    case 'drive':
-      return driveOffers;
-    case 'flight':
-      return flightOffers;
-    case 'check-in':
-      return checkInOffers;
-    case 'sightseeing':
-      return sightseeingOffers;
-    case 'restaurant':
-      return restaurantOffers;
-  }
-};
-
-
 const FilterType = {
   EVERYTHING: 'everything',
   FUTURE: 'future'
@@ -236,9 +213,8 @@ const SortType = {
   EVENT: 'event',
   TIME: 'time',
   PRICE: 'price',
-  OFFERS: 'offers'
+  OFFERS: 'offer'
 };
 
 
-export { fromToDates, getOffersByType, offersByType, FilterType, pointTypes, descriptionPhrases, namesOfPlaces,
-  SortType};
+export { offersByType, FilterType, SortType, pointTypes, descriptionPhrases, namesOfPlaces, fromToDates };
