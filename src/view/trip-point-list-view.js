@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import AbstractView from '../framework/view/abstract-view';
 
 
 function createTripPointListTemplate() {
@@ -6,21 +6,8 @@ function createTripPointListTemplate() {
 }
 
 
-export default class TripPointListView {
-  #element = null;
+export default class TripPointListView extends AbstractView {
   get template() {
     return createTripPointListTemplate();
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
