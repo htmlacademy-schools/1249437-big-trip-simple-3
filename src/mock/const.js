@@ -126,23 +126,23 @@ const flightOffers = [{
   title: 'Add luggage',
   price: 20
 },
-  {
-    id: 4,
-    title: 'Add meal',
-    price: 90
-  }, {
-    id: 5,
-    title: 'Choose seats',
-    price: 35
-  }, {
-    id: 6,
-    title: 'Travel by train',
-    price: 190
-  }, {
-    id: 7,
-    title: 'Add alcohol',
-    price: 250
-  }];
+{
+  id: 4,
+  title: 'Add meal',
+  price: 90
+}, {
+  id: 5,
+  title: 'Choose seats',
+  price: 35
+}, {
+  id: 6,
+  title: 'Travel by train',
+  price: 190
+}, {
+  id: 7,
+  title: 'Add alcohol',
+  price: 250
+}];
 
 
 const checkInOffers = [{
