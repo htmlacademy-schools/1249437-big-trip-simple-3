@@ -1,37 +1,35 @@
 import { descriptionPhrases, namesOfPlaces } from './const';
-import { getRandomId, getRandomArrayElement } from '../utils';
-import { createPictures } from './picture';
+import { getRandomId, getRandomItemFromItems, createIDgenerator } from '../utils';
 
 
-const destinationsId = [];
 const destinations = [];
 
 
-const getRandomDestination = () => {
-
-  let id = getRandomId();
-  while (destinationsId.indexOf(id) >= 0) {
-    id = getRandomId();
+const generatePictures = () => {
+  const pictures = [];
+  for (let i = 0; i < 6; i++) {
+    const picture = {
+      src: `http://picsum.photos/248/152?r=${getRandomId()}`,
+      description: getRandomItemFromItems(descriptionPhrases)
+    };
+    pictures.push(picture);
   }
+  return pictures;
+};
 
-  destinationsId.push(id);
-  const description = getRandomArrayElement(descriptionPhrases);
-  const name = getRandomArrayElement(namesOfPlaces);
-  const pictures = createPictures();
+const generateDestinationId = createIDgenerator();
 
-  const destination = {
-    id, description, name, pictures
-  };
-
-  destinations.push(destination);
-
-  return id;
+const generateDestinations = (n) => {
+  for (let i = 0; i < n; i++) {
+    const destination = {
+      id: generateDestinationId(),
+      description: getRandomItemFromItems(descriptionPhrases),
+      name: getRandomItemFromItems(namesOfPlaces),
+      pictures: generatePictures()
+    };
+    destinations.push(destination);
+  }
 };
 
 
-const getCityNameById = (id) => destinations.find((destination) => destination.id === id).name;
-const getCityDescriptionById = (id) => destinations.find((destination) => destination.id === id).description;
-const getCityPicById = (id) => destinations.find((destination) => destination.id === id).pictures.src;
-
-
-export {getRandomDestination, getCityNameById, getCityDescriptionById, getCityPicById};
+export {generateDestinations, destinations};
