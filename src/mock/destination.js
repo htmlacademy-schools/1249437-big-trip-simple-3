@@ -1,17 +1,16 @@
-import { getRandomItemFromItems, createIDgenerator } from '../utils/utils';
-import { descriptionPhrases, namesOfPlaces } from './const';
+import { namesOfPlaces, descriptionPhrases } from './const';
+import { getRandomPicId, getRandomItemFromItems, createIDgenerator } from '../utils/utils';
 
 
-const destinations = [];
 const NUMBER_OF_PICTURES = Math.floor(Math.random() * 6) + 1;
+const destinations = [];
 
 
-const generatePicId = createIDgenerator();
 const generatePictures = () => {
   const pictures = [];
   for (let i = 0; i < NUMBER_OF_PICTURES; i++) {
     const picture = {
-      src: `img/photos/${generatePicId()}.jpg`,
+      src: `img/photos/${getRandomPicId()}.jpg`,
       description: getRandomItemFromItems(descriptionPhrases)
     };
     pictures.push(picture);
@@ -33,7 +32,8 @@ const generateDestinations = (n) => {
     };
     destinations.push(destination);
   }
+  return destinations;
 };
 
 
-export { destinations, generateDestinations };
+export {destinations, generateDestinations};

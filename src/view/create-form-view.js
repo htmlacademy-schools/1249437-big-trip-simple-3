@@ -1,8 +1,8 @@
+import { getOffersByType } from '../utils/offers.js';
 import AbstractView from '../framework/view/abstract-view.js';
-import { convertToFormDate } from '../utils/formatTime-Utils.js';
-import { capitalizeType, getItemFromItemsById } from '../utils/utils.js';
-import { getOffersByType } from '../mock/offers.js';
+import { convertToFormDate } from '../utils/format-time-utils.js';
 import { destinations } from '../mock/destination.js';
+import { capitalizeType, getItemFromItemsById } from '../utils/utils.js';
 
 
 function createOffersTemplate(offers, type, id) {
