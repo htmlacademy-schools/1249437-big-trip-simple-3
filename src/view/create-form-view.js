@@ -1,6 +1,6 @@
 import { getOffersByType } from '../utils/offers.js';
 import AbstractView from '../framework/view/abstract-view.js';
-import { convertToFormDate } from '../utils/format-time-utils.js';
+import { convertToFormDate } from '../utils/formatTime-Utils.js';
 import { destinations } from '../mock/destination.js';
 import { capitalizeType, getItemFromItemsById } from '../utils/utils.js';
 

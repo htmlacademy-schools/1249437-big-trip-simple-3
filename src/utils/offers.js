@@ -11,8 +11,4 @@ const getRandomOffersIdsByType = (type) => {
 };
 
 
-const getOfferById = (id, type) => (getOffersByType(type)
-  .find((offer) => offer.id === id));
-
-
-export { getOfferById, getRandomOffersIdsByType, getOffersByType };
+export { getOffersByType, getRandomOffersIdsByType };

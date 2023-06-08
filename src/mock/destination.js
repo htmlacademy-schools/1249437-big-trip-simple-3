@@ -2,8 +2,8 @@ import { namesOfPlaces, descriptionPhrases } from './const';
 import { getRandomPicId, getRandomItemFromItems, createIDgenerator } from '../utils/utils';
 
 
-const NUMBER_OF_PICTURES = Math.floor(Math.random() * 6) + 1;
 const destinations = [];
+const NUMBER_OF_PICTURES = Math.floor(Math.random() * 6) + 1;
 
 
 const generatePictures = () => {

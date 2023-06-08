@@ -1,21 +1,19 @@
 import TripPointPresenter from './trip-point-presenter';
 import TripPointListView from '../view/trip-point-list-view';
-import { SortType } from '../const';
+import { sorts } from '../utils/sorts';
+import EditFormView from '../view/edit-form-view';
 import SortView from '../view/sort-view';
-import CreateFormView from '../view/create-form-view';
 import NoPointsView from '../view/no-points-view';
-import {RenderPosition, render } from '../framework/render.js';
-import { sortPointsByDate, sortPointsByPrice } from '../utils/sorts';
-import { getItemFromItemsById } from '../utils/utils';
+import { SortType } from '../const';
+import {render, RenderPosition } from '../framework/render.js';
 
 
 export default class BoardPresenter {
-
   #boardContainer = null;
   #tripPointsModel = null;
   #tripPoints = null;
   #destinations = null;
-
+  #offers = null;
 
   #tripPointsListComponent = new TripPointListView();
   #noTripPointComponent = new NoPointsView();
@@ -24,53 +22,43 @@ export default class BoardPresenter {
   #currentSortType = SortType.DAY;
   #sourcedTripPoints = [];
 
-
   constructor({boardContainer, tripPointsModel}) {
     this.#boardContainer = boardContainer;
     this.#tripPointsModel = tripPointsModel;
   }
 
-
   init() {
     this.#tripPoints = [...this.#tripPointsModel.tripPoints];
     this.#destinations = [...this.#tripPointsModel.destinations];
+    this.#offers = [...this.#tripPointsModel.offers];
     this.#renderBoard();
     this.#sourcedTripPoints = [...this.#tripPointsModel.tripPoints];
   }
-
 
   #renderSort() {
     render(this.#sortComponent, this.#boardContainer, RenderPosition.AFTERBEGIN);
     this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
   }
 
-
   #renderNoTripPoints() {
     render(this.#noTripPointComponent, this.#boardContainer, RenderPosition.AFTERBEGIN );
   }
-
 
   #handleModeChange = () => {
     this.#tripPointPresenter.forEach((presenter) => presenter.resetView());
   };
 
-
   #sortTripPoints(sortType) {
-    switch (sortType) {
-      case SortType.PRICE:
-        this.#tripPoints.sort(sortPointsByPrice);
-        break;
-      case SortType.TIME:
-        this.#tripPoints.sort(sortPointsByDate);
-        break;
-      default:
-        this.#tripPoints = [...this.#sourcedTripPoints];
+    if (sorts[sortType]) {
+      this.#tripPoints.sort(sorts[sortType]);
+    } else {
+      this.#tripPoints = [...this.#sourcedTripPoints];
     }
     this.#currentSortType = sortType;
   }
 
-
   #handleSortTypeChange = (sortType) => {
+
     if (this.#currentSortType === sortType) {
       return;
     }
@@ -81,15 +69,13 @@ export default class BoardPresenter {
     this.#renderTripPoints();
   };
 
-
   #renderTripPoint(tripPoint) {
-
     const tripPoinPresenter = new TripPointPresenter({
       tripPointList: this.#tripPointsListComponent.element,
       onModeChange: this.#handleModeChange
     });
-    const currentDestination = getItemFromItemsById(this.#destinations, tripPoint.destination);
-    tripPoinPresenter.init(tripPoint, currentDestination);
+
+    tripPoinPresenter.init(tripPoint, this.#destinations, this.#offers);
     this.#tripPointPresenter.set(tripPoint.id, tripPoinPresenter);
   }
 
@@ -101,15 +87,15 @@ export default class BoardPresenter {
 
 
   #renderBoard() {
-
     if (this.#tripPoints.length === 0) {
       this.#renderNoTripPoints();
       return;
     }
     this.#renderSort();
 
-    render(new CreateFormView(this.#tripPoints[0]), this.#tripPointsListComponent.element);
+    render(new EditFormView({tripPoint: this.#tripPoints[0], destinations: this.#destinations, offers: this.#offers, isEditForm: false}), this.#tripPointsListComponent.element);
     this.#renderTripPoints();
+
   }
 
 
