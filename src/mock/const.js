@@ -58,141 +58,115 @@ const fromToDates = [
 ];
 
 
-const taxiOffers = [{
-  id: 1,
-  title: 'Upgrade a business class',
-  price: 120
-}, {
-  id: 3,
-  title: 'Switch to comfort',
-  price: 50
-}];
-
-
-const busOffers = [{
-  id: 5,
-  title: 'Choose seats',
-  price: 35
-}, {
-  id: 6,
-  title: 'Travel by train',
-  price: 190
-}];
-
-
-const trainOffers = [{
-  id: 4,
-  title: 'Add meal',
-  price: 90
-}, {
-  id: 5,
-  title: 'Choose seats',
-  price: 35
-}, {
-  id: 7,
-  title: 'Add alcohol',
-  price: 250
-}];
-
-
-const shipOffers = [{
-  id: 4,
-  title: 'Add meal',
-  price: 90
-}, {
-  id: 5,
-  title: 'Choose seats',
-  price: 35
-}, {
-  id: 7,
-  title: 'Add alcohol',
-  price: 250
-}];
-
-
-const driveOffers = [{
-  id: 8,
-  title: 'Upgrade a car',
-  price: 120
-}];
-
-
-const flightOffers = [{
-  id: 2,
-  title: 'Add luggage',
-  price: 20
-}, {
-  id: 4,
-  title: 'Add meal',
-  price: 90
-}, {
-  id: 5,
-  title: 'Choose seats',
-  price: 35
-}, {
-  id: 6,
-  title: 'Travel by train',
-  price: 190
-}, {
-  id: 7,
-  title: 'Add alcohol',
-  price: 250
-}];
-
-
-const checkInOffers = [{
-  id: 9,
-  title: 'No queue',
-  price: 150
-}];
-
-
-const sightseeingOffers = [];
-
-
-const restaurantOffers = [{
-  id: 5,
-  title: 'Choose seats',
-  price: 35
-}];
-
-
 const offersByType = [
   {
     type: 'taxi',
-    offers: taxiOffers
+    offers: [{
+      id: 1,
+      title: 'Upgrade a business class',
+      price: 120
+    }, {
+      id: 3,
+      title: 'Switch to comfort',
+      price: 50
+    }]
   },
   {
     type: 'bus',
-    offers: busOffers
+    offers: [{
+      id: 5,
+      title: 'Choose seats',
+      price: 35
+    }, {
+      id: 6,
+      title: 'Travel by train',
+      price: 190
+    }]
   },
   {
     type: 'train',
-    offers: trainOffers
+    offers: [{
+      id: 4,
+      title: 'Add meal',
+      price: 90
+    }, {
+      id: 5,
+      title: 'Choose seats',
+      price: 35
+    }, {
+      id: 7,
+      title: 'Add alcohol',
+      price: 250
+    }]
   },
   {
     type: 'ship',
-    offers: shipOffers
+    offers: [{
+      id: 4,
+      title: 'Add meal',
+      price: 90
+    }, {
+      id: 5,
+      title: 'Choose seats',
+      price: 35
+    }, {
+      id: 7,
+      title: 'Add alcohol',
+      price: 250
+    }]
   },
   {
     type: 'drive',
-    offers: driveOffers
+    offers: [{
+      id: 8,
+      title: 'Upgrade a car',
+      price: 120
+    }]
   },
   {
     type: 'flight',
-    offers: flightOffers
+    offers: [{
+      id: 2,
+      title: 'Add luggage',
+      price: 20
+    },
+    {
+      id: 4,
+      title: 'Add meal',
+      price: 90
+    }, {
+      id: 5,
+      title: 'Choose seats',
+      price: 35
+    }, {
+      id: 6,
+      title: 'Travel by train',
+      price: 190
+    }, {
+      id: 7,
+      title: 'Add alcohol',
+      price: 250
+    }]
   },
   {
     type: 'check-in',
-    offers: checkInOffers
+    offers: [{
+      id: 9,
+      title: 'No queue',
+      price: 150
+    }]
   },
   {
     type: 'sightseeing',
-    offers: sightseeingOffers
+    offers: []
   },
   {
     type: 'restaurant',
-    offers: restaurantOffers
+    offers: [{
+      id: 5,
+      title: 'Choose seats',
+      price: 35
+    }]
   },
 ];
 

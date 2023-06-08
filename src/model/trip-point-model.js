@@ -1,10 +1,13 @@
 export default class TripPointModel {
 
+  #offers = null;
   #tripPoints = null;
   #destinations = null;
-  constructor (tripPoints, destinations) {
+
+  constructor (tripPoints, destinations, offers) {
     this.#tripPoints = tripPoints;
     this.#destinations = destinations;
+    this.#offers = offers;
   }
 
   get tripPoints() {
@@ -14,4 +17,9 @@ export default class TripPointModel {
   get destinations() {
     return this.#destinations;
   }
+
+  get offers() {
+    return this.#offers;
+  }
+
 }
