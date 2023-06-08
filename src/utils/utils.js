@@ -25,8 +25,6 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const capitalizeType = (type) => type.charAt(0).toUpperCase() + type.slice(1);
 
-const updateItem = (items, update) => items.map((item) => item.id === update.id ? update : item);
 
-
-export { getItemFromItemsById, updateItem, getRandomItemFromItems, isEscapeKey, getRandomPicId, getRandomPrice,
+export { getItemFromItemsById, getRandomItemFromItems, isEscapeKey, getRandomPicId, getRandomPrice,
   capitalizeType, createIDgenerator, getRandomSliceFromItems };
