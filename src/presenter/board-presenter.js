@@ -1,11 +1,12 @@
-import TripPointPresenter from './trip-point-presenter';
-import TripPointListView from '../view/trip-point-list-view';
 import { sorts } from '../utils/sorts';
 import EditFormView from '../view/edit-form-view';
+import { updateItem } from '../utils/utils';
+import {RenderPosition, render } from '../framework/render.js';
+import TripPointPresenter from './trip-point-presenter';
 import SortView from '../view/sort-view';
 import NoPointsView from '../view/no-points-view';
+import TripPointListView from '../view/trip-point-list-view';
 import { SortType } from '../const';
-import {render, RenderPosition } from '../framework/render.js';
 
 
 export default class BoardPresenter {
@@ -35,6 +36,11 @@ export default class BoardPresenter {
     this.#sourcedTripPoints = [...this.#tripPointsModel.tripPoints];
   }
 
+  #handleTripPointChange = (updatedTripPoint) => {
+    this.#tripPoints = updateItem(this.#tripPoints, updatedTripPoint);
+    this.#tripPointPresenter.get(updatedTripPoint.id).init(updatedTripPoint, this.#destinations, this.#offers);
+  };
+
   #renderSort() {
     render(this.#sortComponent, this.#boardContainer, RenderPosition.AFTERBEGIN);
     this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
@@ -58,13 +64,10 @@ export default class BoardPresenter {
   }
 
   #handleSortTypeChange = (sortType) => {
-
     if (this.#currentSortType === sortType) {
       return;
     }
-
     this.#sortTripPoints(sortType);
-
     this.#clearTripPointList();
     this.#renderTripPoints();
   };
@@ -72,13 +75,13 @@ export default class BoardPresenter {
   #renderTripPoint(tripPoint) {
     const tripPoinPresenter = new TripPointPresenter({
       tripPointList: this.#tripPointsListComponent.element,
-      onModeChange: this.#handleModeChange
+      onModeChange: this.#handleModeChange,
+      onDataChange: this.#handleTripPointChange
     });
 
     tripPoinPresenter.init(tripPoint, this.#destinations, this.#offers);
     this.#tripPointPresenter.set(tripPoint.id, tripPoinPresenter);
   }
-
 
   #renderTripPoints() {
     render(this.#tripPointsListComponent, this.#boardContainer);
@@ -93,11 +96,10 @@ export default class BoardPresenter {
     }
     this.#renderSort();
 
-    render(new EditFormView({tripPoint: this.#tripPoints[0], destinations: this.#destinations, offers: this.#offers, isEditForm: false}), this.#tripPointsListComponent.element);
+    render(new EditFormView({destinations: this.#destinations, offers: this.#offers, isEditForm: false}), this.#tripPointsListComponent.element);
     this.#renderTripPoints();
 
   }
-
 
   #clearTripPointList() {
     this.#tripPointPresenter.forEach((presenter) => presenter.destroy());
