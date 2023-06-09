@@ -1,8 +1,8 @@
-import {isDatesEqual, isEsc} from '../utils/utils';
-import {UpdateType, UserAction} from '../utils/const';
+import {isDatesEqual, isEsc} from '../utils/date-utils';
+import {UpdateType, UserAction} from '../utils/constants-utils';
 import {render, replace, remove} from '../framework/render';
-import WaypointView from '../view/trip-point';
-import EditForm from '../view/edit-form';
+import WaypointView from '../view/waypoint-view';
+import EditFormView from '../view/edit-form-view';
 
 
 const Mode = {
@@ -46,7 +46,7 @@ export default class WaypointPresenter {
       destinations: this.#destinations,
     });
 
-    this.#editFormComponent = new EditForm({
+    this.#editFormComponent = new EditFormView({
       oneWaypoint: waypoint,
       onSubmit: this.#handleFormSubmit,
       offers: this.#offers,

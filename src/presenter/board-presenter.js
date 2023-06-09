@@ -1,14 +1,14 @@
-import { sorts } from '../utils/sort';
-import { filter } from '../utils/utils';
-import NewWaypointPresenter from './new-trip-point-presenter';
-import LoadingView from '../view/loading';
-import NoWaypointMessage from '../view/no-points';
+import { sorts } from '../utils/sort-utils';
+import { filter } from '../utils/date-utils';
+import NewWaypointPresenter from './new-waypoint-presenter';
+import LoadingView from '../view/loading-view';
+import NoWaypointMessage from '../view/no-waypoint-message-view';
 import { remove, render, RenderPosition } from '../framework/render';
-import WaypointPresenter from './trip-point-presenter';
-import { UpdateType, UserAction, FilterType, SortType } from '../utils/const';
+import WaypointPresenter from './waypoint-presenter';
+import { UpdateType, UserAction, FilterType, SortType } from '../utils/constants-utils';
 import UiBlocker from '../framework/ui-blocker/ui-blocker';
-import Sorting from '../view/sorting';
-import WaypointList from '../view/trip-point-list';
+import SortingView from '../view/sorting-view';
+import WaypointList from '../view/waypoint-list-view.js';
 
 
 const TimeLimit = {
@@ -90,7 +90,7 @@ export default class BoardPresenter {
 
 
   #renderSort() {
-    this.#sortComponent = new Sorting({
+    this.#sortComponent = new SortingView({
       currentSortType: this.#currentSortType,
       onSortTypeChange: this.#handleSortTypeChange
     });

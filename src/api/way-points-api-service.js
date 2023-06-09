@@ -24,24 +24,6 @@ export default class WaypointsApiService extends ApiService {
   }
 
 
-  get waypoints() {
-    return this._load({url: 'points'})
-      .then(ApiService.parseResponse);
-  }
-
-
-  get destinations() {
-    return this._load({url: 'destinations'})
-      .then(ApiService.parseResponse);
-  }
-
-
-  get offers() {
-    return this._load({url: 'offers'})
-      .then(ApiService.parseResponse);
-  }
-
-
   async deleteWaypoint(waypoint) {
     const response = await this._load({
       url: `points/${waypoint.id}`,
@@ -62,6 +44,24 @@ export default class WaypointsApiService extends ApiService {
     const parsedResponse = await ApiService.parseResponse(response);
 
     return parsedResponse;
+  }
+
+
+  get waypoints() {
+    return this._load({url: 'points'})
+      .then(ApiService.parseResponse);
+  }
+
+
+  get destinations() {
+    return this._load({url: 'destinations'})
+      .then(ApiService.parseResponse);
+  }
+
+
+  get offers() {
+    return this._load({url: 'offers'})
+      .then(ApiService.parseResponse);
   }
 
 
