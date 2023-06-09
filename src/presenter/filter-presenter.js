@@ -1,27 +1,34 @@
-import {FilterType, FilterTypeDescriptions, UpdateType} from '../const.js';
-import { filter } from '../utils/filter.js';
-import {remove, replace, render} from '../framework/render.js';
-import FilterView from '../view/filter-view.js';
+import {FilterTypeDescriptions, UpdateType, FilterType} from '../utils/const';
+import Filters from '../view/filters';
+import {render} from '../render';
+import {remove, replace} from '../framework/render';
+import {filter} from '../utils/utils';
 
 
 export default class FilterPresenter {
-  #tripPointsModel = null;
+
+  #modelWaypoints = null;
   #filterComponent = null;
   #filterContainer = null;
-  #filterModel = null;
+  #modelFilter = null;
 
-
-  constructor({filterContainer, filterModel, tripPointsModel}) {
-    this.#filterModel = filterModel;
-    this.#tripPointsModel = tripPointsModel;
+  constructor({filterContainer, modelFilter, modelWaypoints}) {
     this.#filterContainer = filterContainer;
-    this.#tripPointsModel.addObserver(this.#handleModelEvent);
-    this.#filterModel.addObserver(this.#handleModelEvent);
+    this.#modelFilter = modelFilter;
+    this.#modelWaypoints = modelWaypoints;
+
+    this.#modelWaypoints.addObserver(this.#handleModelEvent);
+    this.#modelFilter.addObserver(this.#handleModelEvent);
   }
 
 
   get filters() {
-    return [FilterType.EVERYTHING, FilterType.FUTURE, FilterType.PAST].map((type) => ({ type, name: FilterTypeDescriptions[type], count: filter[type](this.#tripPointsModel.tripPoints).length}));
+    const waypoints = this.#modelWaypoints.waypoints;
+    return [FilterType.EVERYTHING, FilterType.FUTURE, FilterType.PAST].map((type) => ({
+      type,
+      name: FilterTypeDescriptions[type],
+      count: filter[type](waypoints).length
+    }));
   }
 
 
@@ -29,13 +36,13 @@ export default class FilterPresenter {
     const filters = this.filters;
     const prevFilterComponent = this.#filterComponent;
 
-    this.#filterComponent = new FilterView({
+    this.#filterComponent = new Filters({
       filters,
-      currentFilterType: this.#filterModel.filter,
+      currentFilterType: this.#modelFilter.filter,
       onFilterTypeChange: this.#handleFilterTypeChange
     });
 
-    if (!prevFilterComponent) {
+    if (prevFilterComponent === null) {
       render(this.#filterComponent, this.#filterContainer);
       return;
     }
@@ -51,9 +58,9 @@ export default class FilterPresenter {
 
 
   #handleFilterTypeChange = (filterType) => {
-    if (this.#filterModel.filter === filterType) {
+    if (this.#modelFilter.filter === filterType) {
       return;
     }
-    this.#filterModel.setFilter(UpdateType.MAJOR, filterType);
+    this.#modelFilter.setFilter(UpdateType.MAJOR, filterType);
   };
 }
