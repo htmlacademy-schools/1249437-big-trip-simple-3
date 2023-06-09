@@ -1,5 +1,5 @@
 import Observable from '../framework/observable';
-import {UpdateType} from '../utils/const';
+import {UpdateType} from '../utils/constants-utils';
 
 
 export default class ModelWaypoint extends Observable {

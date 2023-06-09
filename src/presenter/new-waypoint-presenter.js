@@ -1,8 +1,8 @@
-import EditForm from '../view/edit-form';
+import EditFormView from '../view/edit-form-view';
 import {remove} from '../framework/render';
-import {isEsc} from '../utils/utils';
+import {isEsc} from '../utils/date-utils';
 import {render, RenderPosition} from '../render';
-import {UpdateType, UserAction} from '../utils/const';
+import {UpdateType, UserAction} from '../utils/constants-utils';
 
 
 export default class NewWaypointPresenter {
@@ -23,7 +23,7 @@ export default class NewWaypointPresenter {
       return;
     }
 
-    this.#waypointEditComponent = new EditForm({
+    this.#waypointEditComponent = new EditFormView({
       destinations: destinations,
       offers: offers,
       onSubmit: this.#handleFormSubmit,

@@ -1,7 +1,8 @@
-import AbstractView from '../framework/view/abstract-view.js';
+import AbstractView from '../framework/view/abstract-view';
 
 
-const createFilterItemTemplate = (filter, currentFilterType) => (`
+function createFilterItemTemplate(filter, currentFilterType) {
+  return (`
   <div class="trip-filters__filter">
       <input
       id="filter-${filter.type}"
@@ -9,39 +10,36 @@ const createFilterItemTemplate = (filter, currentFilterType) => (`
       type="radio"
       name="trip-filter"
       value="${filter.type}"
-      ${filter.type === currentFilterType ? 'checked' : ''} ${(filter.count === 0) ? 'disabled="true"' : ''}>
+      ${filter.type === currentFilterType ? 'checked' : ''} ${filter.count === 0 ? 'disabled' : ''}>
       <label class="trip-filters__filter-label"
       for="filter-${filter.type}">${filter.name}</label>
-  </div>`
-);
+  </div>`);
+}
 
 
-const createFilterTemplate = (filterItems, currentFilterType) => {
-  const filterItemsTemplate = filterItems
-    .map((filter) => createFilterItemTemplate(filter, currentFilterType))
-    .join('');
+function createFilterTemplate(filterItems, currentFilterType) {
+  const filterItemsTemplate = filterItems.map((filter) => createFilterItemTemplate(filter, currentFilterType)).join('');
   return (`
     <form class="trip-filters" action="#" method="get">
       ${filterItemsTemplate}
       <button class="visually-hidden" type="submit">Accept filter</button>
     </form>`
   );
-};
+}
 
 
-export default class FilterView extends AbstractView{
-
+export default class FiltersView extends AbstractView {
   #filters = null;
   #currentFilter = null;
+  #handleFilterTypeChange = null;
+
 
   constructor({filters, currentFilterType, onFilterTypeChange}) {
     super();
     this.#filters = filters;
     this.#currentFilter = currentFilterType;
-    this._callback.onFilterTypeChange = onFilterTypeChange;
-
+    this.#handleFilterTypeChange = onFilterTypeChange;
     this.element.addEventListener('change', this.#filterTypeChangeHandler);
-
   }
 
 
@@ -49,8 +47,9 @@ export default class FilterView extends AbstractView{
     return createFilterTemplate(this.#filters, this.#currentFilter);
   }
 
+
   #filterTypeChangeHandler = (evt) => {
     evt.preventDefault();
-    this._callback.onFilterTypeChange(evt.target.value);
+    this.#handleFilterTypeChange(evt.target.value);
   };
 }
