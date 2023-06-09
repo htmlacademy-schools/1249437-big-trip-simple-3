@@ -1,6 +1,3 @@
-const pointTypes = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
-
-
 const FilterType = {
   EVERYTHING: 'everything',
   FUTURE: 'future',
@@ -34,9 +31,9 @@ const SortTypeDescription = {
 
 
 const UserAction = {
-  UPDATE_TRIPPOINT: 'UPDATE_TRIPPOINT',
-  ADD_TRIPPOINT: 'ADD_TRIPPOINT',
-  DELETE_TRIPPOINT: 'DELETE_TRIPPOINT',
+  UPDATE_WAYPOINT: 'UPDATE_WAYPOINT',
+  ADD_WAYPOINT: 'ADD_WAYPOINT',
+  DELETE_WAYPOINT: 'DELETE_WAYPOINT',
 };
 
 
@@ -48,4 +45,8 @@ const UpdateType = {
 };
 
 
-export {SortType, FilterTypeDescriptions, SortTypeDescription, UserAction, UpdateType, FilterType, pointTypes };
+const pointTypes = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
+
+
+export {pointTypes, FilterType, SortType,
+  UserAction, UpdateType, SortTypeDescription, FilterTypeDescriptions};

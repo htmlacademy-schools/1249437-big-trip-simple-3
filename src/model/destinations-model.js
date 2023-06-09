@@ -14,16 +14,16 @@ export default class ModelDestinations extends Observable {
   }
 
 
+  get destinations() {
+    return this.#destinations;
+  }
+
+
   async init() {
     try {
       this.#destinations = await this.#waypointsApiService.destinations;
     } catch (err) {
       this.#destinations = [];
     }
-  }
-
-
-  get destinations() {
-    return this.#destinations;
   }
 }

@@ -1,12 +1,12 @@
 import ModelDestinations from './model/destinations-model';
-import WaypointsApiService from './api/trip-point-api-service';
+import WaypointsApiService from './api/way-points-api-service';
 import BoardPresenter from './presenter/board-presenter';
-import ModelTripPoints from './model/trip-point-model';
+import ModelTripPoints from './model/waypoint-model';
 import ModelOffers from './model/offers-model';
-import ModelFilters from './model/filter-model';
+import ModelFilters from './model/filters-model';
 import FilterPresenter from './presenter/filter-presenter';
 import {render} from './render';
-import NewWaypointButton from './view/new-trip-point-button';
+import NewWaypointButton from './view/new-waypoint-button-view';
 
 
 const siteHeaderElement = document.querySelector('.trip-controls__filters');

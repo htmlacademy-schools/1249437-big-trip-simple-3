@@ -14,16 +14,16 @@ export default class ModelOffers extends Observable {
   }
 
 
+  get offers() {
+    return this.#offers;
+  }
+
+
   async init() {
     try {
       this.#offers = await this.#waypointsApiService.offers;
     } catch (err) {
       this.#offers = [];
     }
-  }
-
-
-  get offers() {
-    return this.#offers;
   }
 }
