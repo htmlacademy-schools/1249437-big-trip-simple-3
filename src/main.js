@@ -1,26 +1,29 @@
-import NewTripPointButtonView from './view/new-trip-point-button-view.js';
 import BoardPresenter from './presenter/board-presenter.js';
+import FilterPresenter from './presenter/filter-presenter.js';
 import TripPointModel from './model/trip-point-model.js';
-import FilterModel from './model/filter-model.js';
-import { mockInit } from './mock/utils.js';
-import { offersByType } from './mock/const.js';
 import DestinationsModel from './model/destinations-model.js';
 import OffersModel from './model/offers-model.js';
-import FilterPresenter from './presenter/filter-presenter.js';
+import FilterModel from './model/filter-model.js';
 import {render} from './framework/render.js';
+import NewTripPointButtonView from './view/new-trip-point-button-view.js';
+import TripPointApiService from './trip-point-api-service.js';
 
 
+const AUTHORIZATION = 'Basic daevka1307_4';
+const END_POINT = 'https://18.ecmascript.pages.academy/big-trip';
+const boardContainer = document.querySelector('.trip-events');
 const siteFilterElement = document.querySelector('.trip-controls__filters');
 const siteHeaderElement = document.querySelector('.trip-main');
-const boardContainer = document.querySelector('.trip-events');
+const tripPointApiService = new TripPointApiService(END_POINT, AUTHORIZATION);
 
 
-const [tripPoints, destinations] = mockInit(5, 10);
+const tripPointsModel = new TripPointModel({
+  tripPointApiService
+});
 
 
-const tripPointsModel = new TripPointModel(tripPoints);
-const destinationsModel = new DestinationsModel(destinations);
-const offersModel = new OffersModel(offersByType);
+const destinationsModel = new DestinationsModel({tripPointApiService});
+const offersModel = new OffersModel({tripPointApiService});
 const filterModel = new FilterModel();
 
 
@@ -39,6 +42,16 @@ const boardPresenter = new BoardPresenter({
 });
 
 
+function handleNewTripPointButtonClick() {
+  boardPresenter.createTripPoint();
+  newTripPointButtonComponent.element.disabled = true;
+}
+
+function onNewTripPointDestroy() {
+  newTripPointButtonComponent.element.disabled = false;
+}
+
+
 const filterPresenter = new FilterPresenter({
   filterContainer: siteFilterElement,
   filterModel,
@@ -46,20 +59,9 @@ const filterPresenter = new FilterPresenter({
 });
 
 
-function onNewTripPointDestroy() {
-  newTripPointButtonComponent.element.disabled = false;
-}
-
-
-function handleNewTripPointButtonClick() {
-  boardPresenter.createTripPoint();
-  newTripPointButtonComponent.element.disabled = true;
-}
-
-
-render(newTripPointButtonComponent, siteHeaderElement);
-
-
 filterPresenter.init();
-
 boardPresenter.init();
+tripPointsModel.init()
+  .finally(() => {
+    render(newTripPointButtonComponent, siteHeaderElement);
+  });

@@ -1,19 +1,18 @@
-import { capitalizeType } from '../utils/utils';
+import { SortType, SortTypeDescription } from '../const';
 import { isDisabled } from '../utils/sorts';
 import AbstractView from '../framework/view/abstract-view';
-import { SortTypeForDrawing } from '../const';
 
 
-const createSortItemTemplate = (sortType) => (`
+const createSortItemTemplate = (sortType, currentSortType) => (`
   <div class="trip-sort__item  trip-sort__item--${sortType} ">
-    <input id="sort-${sortType}" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-${sortType}" ${isDisabled(sortType)} ${(sortType === 'day' ? 'checked' : '')}>
-    <label class="trip-sort__btn" for="sort-${sortType}">${capitalizeType(sortType)}</label>
+    <input id="${sortType}" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="${sortType}" ${isDisabled(sortType)} ${((sortType === currentSortType) ? 'checked' : '')}>
+    <label class="trip-sort__btn" for="${sortType}">${SortTypeDescription[sortType]}</label>
   </div>`
 );
 
 
-const createSortTemplate = () => {
-  const sortItemsTemplate = Object.values(SortTypeForDrawing).map((sortType) => createSortItemTemplate(sortType)).join('');
+const createSortTemplate = (currentSortType) => {
+  const sortItemsTemplate = Object.keys(SortType).map((sortType) => createSortItemTemplate(SortType[sortType], currentSortType)).join('');
   return (`
   <form class="trip-events__trip-sort  trip-sort" action="#" method="get">
     ${sortItemsTemplate}
@@ -34,7 +33,7 @@ export default class SortView extends AbstractView {
   }
 
   get template() {
-    return createSortTemplate();
+    return createSortTemplate(this.#currentSortType);
   }
 
   #sortTypeChangeHandler = (evt) => {

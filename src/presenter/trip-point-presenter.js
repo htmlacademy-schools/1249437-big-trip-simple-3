@@ -1,9 +1,9 @@
-import EditFormView from '../view/edit-form-view';
 import { isEscapeKey } from '../utils/utils';
+import { UserAction, UpdateType } from '../const';
 import { isDatesEqual } from '../utils/formatTime-Utils';
-import { replace, render, remove } from '../framework/render';
+import { render, replace, remove } from '../framework/render';
 import TripPointView from '../view/trip-point-view';
-import { UpdateType, UserAction } from '../const';
+import EditFormView from '../view/edit-form-view';
 
 
 const Mode = {
@@ -13,19 +13,15 @@ const Mode = {
 
 
 export default class TripPointPresenter {
-
-  #handleModeChange = null;
-  #handleDataChange = null;
-
   #tripPointList = null;
   #editFormComponent = null;
   #tripPointComponent = null;
-
+  #handleModeChange = null;
+  #handleDataChange = null;
   #tripPoint = null;
   #destinations = null;
   #offers = null;
   #mode = Mode.DEFAULT;
-
 
   constructor({tripPointList, onModeChange, onDataChange}) {
     this.#tripPointList = tripPointList;
@@ -127,6 +123,7 @@ export default class TripPointPresenter {
       isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH,
       update,
     );
+
     this.#replaceFormToPoint();
     document.body.removeEventListener('keydown', this.#ecsKeyDownHandler);
   };
