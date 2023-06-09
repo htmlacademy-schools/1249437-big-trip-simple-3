@@ -1,9 +1,10 @@
+import { pointTypes } from '../const.js';
+import he from 'he';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
-import { convertToBasicime } from '../utils/formatTime-Utils.js';
-import { pointTypes } from '../mock/const.js';
-import { getItemFromItemsById, capitalizeType } from '../utils/utils.js';
+import { capitalizeType, getItemFromItemsById } from '../utils/utils.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
+import { convertToBasicime } from '../utils/formatTime-Utils.js';
 
 
 const BLANK_TRIPPOINT = {
@@ -12,7 +13,7 @@ const BLANK_TRIPPOINT = {
   dateTo: '2019-07-18T21:40:13.375Z',
   destination: undefined,
   id: 0,
-  offersIDs: [2, 4],
+  offersIDs: [],
   type: 'flight'
 };
 
@@ -63,7 +64,7 @@ const createEventDetailsTemplate = (tripPoint, destination, offers) => {
 
   <section class="event__section  event__section--destination ${(destination) ? '' : 'visually-hidden'}">
     <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-    <p class="event__destination-description">${(destination) ? destination.description : ''}</p>
+    <p class="event__destination-description">${destination.description}</p>
     ${createDestinationDescriptionTemplate(destination)}
   </section>`;
 };
@@ -94,6 +95,9 @@ const createDestinationList = (destinations) => (destinations
 
 
 const createEditFormTemplate = (tripPoint, destinations, offers, isEditForm) => {
+  if (!tripPoint.destination) {
+    tripPoint.destination = destinations[0].id;
+  }
   const destination = getItemFromItemsById(destinations, tripPoint.destination);
   return (
     `<li class="trip-events__item">
@@ -118,7 +122,7 @@ const createEditFormTemplate = (tripPoint, destinations, offers, isEditForm) => 
         <label class="event__label event__type-output" for="event-destination-${tripPoint.id}">
         ${capitalizeType(tripPoint.type)}
         </label>
-        <input class="event__input event__input--destination" id="event-destination-${tripPoint.id}" type="text" name="event-destination" value="${(destination) ? destination.name : ''}" list="destination-list-${tripPoint.id}" autocomplete="off">
+        <input class="event__input event__input--destination" id="event-destination-${tripPoint.id}" type="text" name="event-destination" value="${he.encode(destination.name) }" list="destination-list-${tripPoint.id}" autocomplete="off">
         <datalist id="destination-list-${tripPoint.id}">
           ${createDestinationList(destinations)}
         </datalist>
@@ -137,7 +141,7 @@ const createEditFormTemplate = (tripPoint, destinations, offers, isEditForm) => 
           <span class="visually-hidden">Price</span>
           &euro;
         </label>
-        <input class="event__input event__input--price" id="event-price-${tripPoint.id}" type="number" name="event-price" value="${tripPoint.basePrice}">
+        <input class="event__input event__input--price" id="event-price-${tripPoint.id}" type="number" name="event-price" value="${tripPoint.basePrice}" autocomplete="off" min="0" max="9999999" >
       </div>
 
       <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -154,27 +158,27 @@ const createEditFormTemplate = (tripPoint, destinations, offers, isEditForm) => 
 
 
 export default class EditFormView extends AbstractStatefulView {
-  #fromDatepicker = null;
-  #toDatepicker = null;
   #destinations = null;
   #offers = null;
   #isEditForm = null;
-
+  #fromDatepicker = null;
+  #toDatepicker = null;
 
   constructor({tripPoint = BLANK_TRIPPOINT, destinations, offers, onFormSubmit, onRollUpButton, isEditForm = true, onDeleteClick}) {
     super();
     this._setState(EditFormView.parseTripPointToState(tripPoint, offers));
+
     this.#destinations = destinations;
     this.#offers = offers;
     this.#isEditForm = isEditForm;
     this._callback.onFormSubmit = onFormSubmit;
     this._callback.onRollUpButton = onRollUpButton;
     this._callback.onDeleteClick = onDeleteClick;
+
     this._restoreHandlers();
   }
 
   removeElement() {
-
     super.removeElement();
 
 
@@ -189,18 +193,15 @@ export default class EditFormView extends AbstractStatefulView {
     }
   }
 
-
   get template() {
     return createEditFormTemplate(this._state, this.#destinations, this.#offers, this.#isEditForm);
   }
-
 
   reset(tripPoint) {
     this.updateElement(
       EditFormView.parseTripPointToState(tripPoint, this.#offers),
     );
   }
-
 
   _restoreHandlers() {
     this.element.querySelector('.event--edit')
@@ -218,13 +219,14 @@ export default class EditFormView extends AbstractStatefulView {
     if (this.#isEditForm) {
       this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#rollUpButtonHandler);
     }
-
     this.#setFromDatePicker();
     this.#setToDatePicker();
   }
 
-
   #fromDateChangeHandler = ([userDate]) => {
+    if (!userDate) {
+      return;
+    }
     this._setState({
       dateFrom: userDate.toISOString(),
     });
@@ -233,11 +235,13 @@ export default class EditFormView extends AbstractStatefulView {
 
 
   #toDateChangeHandler = ([userDate]) => {
+    if (!userDate) {
+      return;
+    }
     this._setState({
       dateTo: userDate.toISOString(),
     });
   };
-
 
   #setFromDatePicker() {
     this.#fromDatepicker = flatpickr(
@@ -250,7 +254,6 @@ export default class EditFormView extends AbstractStatefulView {
       },
     );
   }
-
 
   #setToDatePicker() {
     this.#toDatepicker = flatpickr(
@@ -265,24 +268,20 @@ export default class EditFormView extends AbstractStatefulView {
     );
   }
 
-
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
     this._callback.onFormSubmit(EditFormView.parseStateToTripPoint(this._state));
   };
-
 
   #rollUpButtonHandler = (evt) => {
     evt.preventDefault();
     this._callback.onRollUpButton();
   };
 
-
   #formResetClickHandler = (evt) => {
     evt.preventDefault();
     this._callback.onDeleteClick(EditFormView.parseStateToTripPoint(this._state));
   };
-
 
   #eventTypeHandler = (evt) => {
     evt.preventDefault();
@@ -293,14 +292,16 @@ export default class EditFormView extends AbstractStatefulView {
     });
   };
 
-
   #destinationHandler = (evt) => {
+    const newDest = this.#destinations.find((destination) => destination.name === evt.target.value);
+    if (!newDest) {
+      return;
+    }
     evt.preventDefault();
     this.updateElement({
-      destination: this.#destinations.find((destination) => destination.name === evt.target.value).id,
+      destination: newDest.id,
     });
   };
-
 
   #priceInputHandler = (evt) => {
     evt.preventDefault();
@@ -308,7 +309,6 @@ export default class EditFormView extends AbstractStatefulView {
       basePrice: evt.target.value,
     });
   };
-
 
   #offersHandler = (evt) => {
     evt.preventDefault();
@@ -331,9 +331,9 @@ export default class EditFormView extends AbstractStatefulView {
   }
 
   static parseStateToTripPoint(state) {
-    const task = {...state};
+    const tripPoint = {...state};
 
-    delete task.currentTypeOffers;
-    return task;
+    delete tripPoint.currentTypeOffers;
+    return tripPoint;
   }
 }
